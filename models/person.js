@@ -33,7 +33,11 @@ const personSchema = new mongoose.Schema({
   weight: {
     type: Number,
     required: true
-  }
+  },
+}, {
+  timestamps: true,
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true }
 });
 
 personSchema.virtual('age').get(function() {
