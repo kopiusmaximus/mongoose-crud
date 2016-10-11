@@ -13,6 +13,7 @@ const done = function() {
   db.close();
 };
 
+// returns a Promise and loads all the people
 const loadPeople = () =>
   new Promise((resolve, reject) => {
     const people = [];

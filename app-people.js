@@ -9,11 +9,22 @@ const db = mongoose.connection;
 const Person = require('./models/person.js');
 
 const done = function() {
+  // close our connection to the database
   db.close();
 };
 
 const create = function(givenName, surname, dob, gender, height, weight) {
-  /* Add Code Here */
+  Person.create({
+    'name.given': givenName,
+    'name.surname': surname,
+    'dob': dob,
+    'gender': gender,
+    'height': height,
+    'weight': weight
+  })
+  .then(console.log)
+  .catch(console.error)
+  .then(done);
 };
 
 const index = function() {
@@ -21,15 +32,36 @@ const index = function() {
 };
 
 const show = function(id) {
-  /* Add Code Here */
+  Person.findById(id)
+  .then((person)=>{
+    console.log(person);
+  })
+  .catch(console.error)
+  .then(done);
 };
 
 const update = function(id, field, value) {
-  /* Add Code Here */
+  // get the person we want to update
+  Person.findById(id)
+  .then((person)=>{
+    // update the appropriate field with the new value
+    person[field] = value;
+    // save the modified object to the database
+    // .save is provided to us by mongoose
+    return person.save();
+  })
+  .then(console.log)
+  .catch(console.error)
+  .then(done);
 };
 
 const destroy = function(id) {
-  /* Add Code Here */
+  Person.findById(id)
+  .then((person)=>{
+    return person.remove();
+  })
+  .catch(console.error)
+  .then(done);
 };
 
 db.once('open', function() {
